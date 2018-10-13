@@ -3,18 +3,18 @@ class PDate
 {
     private $config =
         [
-        'dateTime'     => null,
-        'y'            => null,
-        'm'            => null,
-        'd'            => null,
-        'h'            => 0,
-        'i'            => 0,
-        's'            => 0,
-        'inFormat'     => 'Y-m-d',
-        'outFormat'    => 'y-M-d',
-        'local'        => null, 
-        'calendar'     => 'persian',
-        'timeZone'     => null
+        'dateTime'  => null,
+        'y'         => null,
+        'm'         => null,
+        'd'         => null,
+        'h'         => 0,
+        'i'         => 0,
+        's'         => 0,
+        'inFormat'  => 'Y-m-d',
+        'outFormat' => 'y-M-d',
+        'local'     => null,
+        'calendar'  => 'persian',
+        'timeZone'  => null,
     ];
 
     public function setConfig($config)
@@ -38,7 +38,7 @@ class PDate
             //months num starts from 0
             $config['m'] = $config['m'] - 1;
 
-            $time = IntlCalendar::createInstance("$config[timeZone]", "$config[local]@calendar=$baseCalType");
+            $time = IntlCalendar::createInstance($config['timeZone'], "$config[local]@calendar=$baseCalType");
 
             $time->set($config['y'], $config['m'], $config['d'], $config['h'], $config['i'], $config['s']);
         }
@@ -52,11 +52,10 @@ class PDate
         $config = array_merge($this->config, $config);
         $time   = $this->checkDate($config, 'gregorian');
 
-        $formatter = new IntlDateFormatter("{$config['local']}@calendar={$config['calendar']}", IntlDateFormatter::SHORT, IntlDateFormatter::LONG, $config['timeZone'], IntlDateFormatter::TRADITIONAL,$config['outFormat']);
+        $formatter = new IntlDateFormatter($config['local'] . "@calendar={$config['calendar']}", IntlDateFormatter::SHORT, IntlDateFormatter::LONG, $config['timeZone'], IntlDateFormatter::TRADITIONAL, $config['outFormat']);
 
-       // $formatter->setPattern($config['outFormat']);
+        // $formatter->setPattern($config['outFormat']);
         $time = $formatter->format($time);
-
         return $time;
     }
 
@@ -65,22 +64,19 @@ class PDate
         $config = array_merge($this->config, $config);
         $time   = $this->checkDate($config, 'persian');
 
-        $formatter = new IntlDateFormatter("{$config['local']}@calendar={$config['calendar']}", IntlDateFormatter::FULL, IntlDateFormatter::FULL, $config['timeZone'], IntlDateFormatter::GREGORIAN);
+        $formatter = new IntlDateFormatter($config['local'] . "@calendar={$config['calendar']}", IntlDateFormatter::FULL, IntlDateFormatter::FULL, $config['timeZone'], IntlDateFormatter::GREGORIAN, $config['outFormat']);
 
-        $formatter->setPattern($config['outFormat']);
+        //$formatter->setPattern($config['outFormat']);
         $time = $formatter->format($time);
 
         return $time;
     }
 
-    public function pNow($config = [])
+    public function now($config = [])
     {
         $config = array_merge($this->config, $config);
-        
-        $formatter = new IntlDateFormatter("{$config['local']}@calendar={$config['calendar']}", IntlDateFormatter::SHORT, IntlDateFormatter::LONG, $config['timeZone'], IntlDateFormatter::TRADITIONAL);
-
-        $formatter->setPattern($config['outFormat']);
-        $time = $formatter->format(0);
+        $time = IntlCalendar::createInstance($config['timeZone'], 'fa_IR');
+        $time = IntlDateFormatter::formatObject($time, $config['outFormat'], $config['local']);
 
         return $time;
     }
