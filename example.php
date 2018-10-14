@@ -13,9 +13,9 @@ $config = [
     'y'=>2018,
     'm'=>10,
     'd'=>11,
-    'local'     => 'fa_IR',
-    'timeZone'  => 'Asia/Tehran',
-    'local'     => 'en_US'
+    'local'     => 'fa_IR',//if not set it uses your ini gonfig
+    'inTimeZone'  => 'Asia/Tehran',//if not set it uses your ini gonfig
+    'outTimeZone'  => 'Asia/Tehran',//if not set it uses your ini gonfig
 ];
 
 $pDate = new PDate();
