@@ -4,7 +4,8 @@ include 'PDate.php';
 $config = [
     'dateTime'  => '2018-10-11',
     'local'     => 'fa_IR',
-    'timeZone'  => 'Asia/Tehran',
+    'inTimeZone'  => 'Asia/Tehran',//if not set it uses your ini gonfig
+    'outTimeZone'  => 'Asia/Tehran',//if not set it uses your ini gonfig
     'local'     => 'en_US'
 
 ];
