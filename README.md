@@ -25,7 +25,7 @@ default config is
 ```
 `null` values replace with ini default values.
 
-**priority of input date is with `dateTime` in $config `parameters`, it means if you set `dateTime`, then `y`, `m`, `d` have no affect**
+**priority of input date is with `dateTime` in `$config` `parameters`, it means if you set `dateTime`, then `y`, `m`, `d` have no affect**
 
 possible `outFormat` values are documented at
 [http://userguide.icu-project.org/formatparse/datetime](http://userguide.icu-project.org/formatparse/datetime).
