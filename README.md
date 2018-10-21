@@ -30,6 +30,7 @@ default config is
 possible `outFormat` values are documented at
 [http://userguide.icu-project.org/formatparse/datetime](http://userguide.icu-project.org/formatparse/datetime).
 
-`inFormat` is only available when you set `dateTime`.
+`inFormat` is only available when you set `dateTime` parameter.
+
 possible `inFormat` values are documented at
 [http://uk3.php.net/manual/en/function.date.php](http://uk3.php.net/manual/en/function.date.php).
