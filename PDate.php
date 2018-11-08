@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHP PDate library
  * @package PDate
