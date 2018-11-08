@@ -1,10 +1,13 @@
 # PDate
-working with Persian (Jalali) date using php intl extension 
+working with Persian ((Jalali) or (Shamsi)) date using php intl extension 
 
 what PDate can do?
-* convert gregorian to persian date
-* convert persian to gregorian date
-* get current persian date
+* convert Gregorian to persian date
+* convert Persian to gregorian date
+* get current Persian date
+* check Persian leap year
+* check Gregorian leap year
+* get start and end of each Persian month in gregorian date (used for Jalali/Persian archive or monthly report)
 
 default config is
 ```
@@ -27,10 +30,10 @@ default config is
 
 **priority of input date is with `dateTime` in `$config` `parameters`, it means if you set `dateTime`, then `y`, `m`, `d` have no affect**
 
+`inFormat` is only available when you set `dateTime` parameter.
+
 possible `outFormat` values are documented at
 [http://userguide.icu-project.org/formatparse/datetime](http://userguide.icu-project.org/formatparse/datetime).
-
-`inFormat` is only available when you set `dateTime` parameter.
 
 possible `inFormat` values are documented at
 [http://uk3.php.net/manual/en/function.date.php](http://uk3.php.net/manual/en/function.date.php).
