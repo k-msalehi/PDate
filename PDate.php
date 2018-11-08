@@ -53,7 +53,7 @@ class PDate
     public function g2p($config = [])
     {
         $config = array_merge($this->config, $config);
-        $time = $this->__checkDate($config, 'gregorian');
+        $time = $this->_checkDate($config, 'gregorian');
         $formatter = new IntlDateFormatter($config['local'] . "@calendar={$config['calendar']}", IntlDateFormatter::SHORT, IntlDateFormatter::LONG, $config['outTimeZone'], IntlDateFormatter::TRADITIONAL, $config['outFormat']);
         // $formatter->setPattern($config['outFormat']);
         $time = $formatter->format($time);
@@ -62,7 +62,7 @@ class PDate
     public function p2g($config = [])
     {
         $config = array_merge($this->config, $config);
-        $time = $this->__checkDate($config, 'persian');
+        $time = $this->_checkDate($config, 'persian');
         $formatter = new IntlDateFormatter($config['local'] . "@calendar={$config['calendar']}", IntlDateFormatter::FULL, IntlDateFormatter::FULL, $config['outTimeZone'], IntlDateFormatter::GREGORIAN, $config['outFormat']);
         //$formatter->setPattern($config['outFormat']);
         $time = $formatter->format($time);
