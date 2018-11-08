@@ -2,7 +2,7 @@
 /**
  * PHP PDate library
  * @package PDate
- * @author Mohammad Salehi Koleti
+ * @author Mohammad Salehi Koleti <moteutsch@gmail.com>
  * @see https://github.com/pars0097/PDate
  * @license https://opensource.org/licenses/lgpl-3.0.html LGPL 3
  */
@@ -31,7 +31,7 @@ class PDate
     {
         $this->config = array_merge($this->config, $config);
     }
-    public function checkDate($config, $baseCalType)
+    private function _checkDate($config, $baseCalType)
     {
         if (isset($config['dateTime'])) {
             $time = DateTime::createFromFormat($config['inFormat'], $config['dateTime'], new DateTimeZone($config['inTimeZone']));
@@ -53,7 +53,7 @@ class PDate
     public function g2p($config = [])
     {
         $config = array_merge($this->config, $config);
-        $time = $this->checkDate($config, 'gregorian');
+        $time = $this->__checkDate($config, 'gregorian');
         $formatter = new IntlDateFormatter($config['local'] . "@calendar={$config['calendar']}", IntlDateFormatter::SHORT, IntlDateFormatter::LONG, $config['outTimeZone'], IntlDateFormatter::TRADITIONAL, $config['outFormat']);
         // $formatter->setPattern($config['outFormat']);
         $time = $formatter->format($time);
@@ -62,7 +62,7 @@ class PDate
     public function p2g($config = [])
     {
         $config = array_merge($this->config, $config);
-        $time = $this->checkDate($config, 'persian');
+        $time = $this->__checkDate($config, 'persian');
         $formatter = new IntlDateFormatter($config['local'] . "@calendar={$config['calendar']}", IntlDateFormatter::FULL, IntlDateFormatter::FULL, $config['outTimeZone'], IntlDateFormatter::GREGORIAN, $config['outFormat']);
         //$formatter->setPattern($config['outFormat']);
         $time = $formatter->format($time);
@@ -87,7 +87,7 @@ class PDate
             return false;
         }
     }
-    
+
     /**
      * @link vtwo.org/1688952
      */
@@ -133,8 +133,6 @@ class PDate
             $dates[] = [$startDate, $endDate, 'year' => (int) $pY, 'month' => (int) $pM];
         } elseif (isset($config['y']) && isset($config['m']) && isset($config['d'])) {
             //$this->setConfig($config);
-            $time = $this->checkDate($config, 'persian');
-
             $pY = $config['y'];
             $pM = $config['m'];
             $pD = $config['d'];
