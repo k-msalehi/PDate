@@ -41,6 +41,7 @@ examples of acceptable formats:
 
 you can set last `pArchive()` output date by set `$tillNow` parameter to `false` and set `Y-m-d`(in Persian date) as last date in third argument.
 by default `$tillNow` is `true`
+
 example:
 ```php
 $pDate = new PDate();
