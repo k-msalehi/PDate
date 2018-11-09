@@ -41,13 +41,14 @@ examples of acceptable formats:
 
 you can set last `pArchive()` output date by set `$tillNow` parameter to `false` and set `Y-m-d`(in Persian date) as last date in third argument.
 by default `$tillNow` is `true`
-example
+example:
 ```php
 $pDate = new PDate();
 $archive = $pDate->pArchive(3, false, [1397,4,31]); //start of archive is on 1397-1-1, end on 1397-4/31
 var_dump($archive);
-/**
+```
 output:
+```
 array (size=3)
   0 => 
     array (size=4)
@@ -67,7 +68,6 @@ array (size=3)
       1 => string '2018-5-21' (length=9) //1397-2-31
       'year' => int 1397
       'month' => int 2
-*/
 ```
 
 possible `outFormat` values are documented at
