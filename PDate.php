@@ -147,7 +147,6 @@ class PDate
      */
     public function pArchive($monthNum, $tillNow = true, $date = false)
     {
-        //temporary set $config['dateTime'] to null to avoid bad output from $this->p2g().
         if ($date) {
             $config = $this->str2date($date);
         } else {
