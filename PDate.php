@@ -149,10 +149,8 @@ class PDate
     {
 
         //temporary set $config['dateTime'] to null to avoid bad output from $this->p2g().
-        $temp = $this->config['dateTime'];
-        $this->config['dateTime'] = null;
-
-        $config = $this->config;
+        $config = array_merge($this->config,$config);
+        $config['dateTime'] = null;
 
         $dates = [];
         if ($tillNow) {
@@ -196,7 +194,6 @@ class PDate
 
             $dates[] = [$startDate, $endDate, 'year' => (int) $pY, 'month' => (int) $pM];
         }
-        $this->config['dateTime'] = $temp;
         return $dates;
     }
 
