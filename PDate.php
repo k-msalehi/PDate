@@ -2,7 +2,7 @@
 /**
  * PHP PDate library
  * @package PDate
- * @author Mohammad Salehi Koleti <mohammadsk@yahoo.com>
+ * @author Mohammad Salehi Koleti <mohammadsk97@yahoo.com>
  * @see https://github.com/pars0097/PDate
  * @license https://opensource.org/licenses/lgpl-3.0.html LGPL 3
  */
