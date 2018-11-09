@@ -1,9 +1,8 @@
 <?php
-
 /**
  * PHP PDate library
  * @package PDate
- * @author Mohammad Salehi Koleti <moteutsch@gmail.com>
+ * @author Mohammad Salehi Koleti <mohammadsk@yahoo.com>
  * @see https://github.com/pars0097/PDate
  * @license https://opensource.org/licenses/lgpl-3.0.html LGPL 3
  */
@@ -24,9 +23,12 @@ class PDate
         'calendar' => 'persian',
         'outTimeZone' => null,
     ];
-    public function __construct()
+    public function __construct($config = [])
     {
-        $this->config['inTimeZone'] = date_default_timezone_get();
+        if (empty($this->config['inTimeZone'])) {
+            $this->config['inTimeZone'] = date_default_timezone_get();
+        }
+        $this->config = array_merge($this->config, $config);
     }
     public function setConfig($config)
     {
@@ -34,46 +36,73 @@ class PDate
     }
     private function _checkDate($config, $baseCalType)
     {
+        $config = array_merge($this->config, $config);
         if (isset($config['dateTime'])) {
-            $time = DateTime::createFromFormat($config['inFormat'], $config['dateTime'], new DateTimeZone($config['inTimeZone']));
+            if ($baseCalType == 'gregorian') {
+                $time = DateTime::createFromFormat($config['inFormat'], $config['dateTime'], new DateTimeZone($config['inTimeZone']));
+            } else {
+                $this->str2date($config['dateTime']);
+                $config = $this->config;
+                $config['m']--;
+                $time = IntlCalendar::createInstance($config['inTimeZone'], "$config[local]@calendar=$baseCalType");
+                $time->set((int) $config['y'], (int) $config['m'], (int) $config['d'], (int) $config['h'], (int) $config['i'], (int) $config['s']);
+
+            }
         } else {
             if (empty($config['y']) || empty($config['m']) || empty($config['d'])) {
-                throw new Exception('if you left `$config[\'dateTime\']` null then y, m and d are MUST set');
+                throw new Exception('if you left `$config[\'dateTime\']` null then y, m and d MUST has value');
             }
             //months num starts from 0
             $config['m']--;
             $time = IntlCalendar::createInstance($config['inTimeZone'], "$config[local]@calendar=$baseCalType");
             $time->set((int) $config['y'], (int) $config['m'], (int) $config['d'], (int) $config['h'], (int) $config['i'], (int) $config['s']);
         }
-        // var_dump($time);exit();
         if ($time) {
             return $time;
         }
         throw new Exception('invalide date/time entered!');
     }
-    public function g2p($config = [])
+    public function g2p($date = false, $outFormat = false)
     {
-        $config = array_merge($this->config, $config);
+        if ($date) {
+            $config = $this->str2date($date);
+        } else {
+            $config = $this->config;
+        }
+        if ($outFormat) {
+            $config['outFormat'] = $outFormat;
+        }
+
         $time = $this->_checkDate($config, 'gregorian');
+
         $formatter = new IntlDateFormatter($config['local'] . "@calendar={$config['calendar']}", IntlDateFormatter::SHORT, IntlDateFormatter::LONG, $config['outTimeZone'], IntlDateFormatter::TRADITIONAL, $config['outFormat']);
         // $formatter->setPattern($config['outFormat']);
         $time = $formatter->format($time);
         return $time;
     }
-    public function p2g($config = [])
+    public function p2g($date = false, $outFormat = false)
     {
-        $config = array_merge($this->config, $config);
+        if ($date) {
+            $config = $this->str2date($date);
+        } else {
+            $config = $this->config;
+        }
+        if ($outFormat) {
+            $config['outFormat'] = $outFormat;
+        }
         $time = $this->_checkDate($config, 'persian');
+
         $formatter = new IntlDateFormatter($config['local'] . "@calendar={$config['calendar']}", IntlDateFormatter::FULL, IntlDateFormatter::FULL, $config['outTimeZone'], IntlDateFormatter::GREGORIAN, $config['outFormat']);
         //$formatter->setPattern($config['outFormat']);
         $time = $formatter->format($time);
         return $time;
     }
-    public function now($config = [])
+    public function now($outFormat = false)
     {
-        $config = array_merge($this->config, $config);
+        $outFormat = $outFormat ?: $this->config['outFormat'];
+        $config = $this->config;
         $time = IntlCalendar::createInstance($config['outTimeZone'], 'fa_IR');
-        $time = IntlDateFormatter::formatObject($time, $config['outFormat'], $config['local']);
+        $time = IntlDateFormatter::formatObject($time, $outFormat, $config['local']);
         return $time;
     }
 
@@ -118,19 +147,20 @@ class PDate
      */
     public function pArchive($monthNum, $tillNow = true, $config = [])
     {
+
         //temporary set $config['dateTime'] to null to avoid bad output from $this->p2g().
-        $temp = isset($config['dateTime']) ? $config['dateTime'] : null;
-        $config['dateTime'] = null;
-        $config = array_merge($this->config, $config);
+        $temp = $this->config['dateTime'];
+        $this->config['dateTime'] = null;
+
+        $config = $this->config;
 
         $dates = [];
         if ($tillNow) {
-            $pY = $this->now(['outFormat' => 'Y']);
-            $pM = $this->now(['outFormat' => 'M']);
-            $pD = $this->now(['outFormat' => 'd']);
-
-            $startDate = $this->p2g(['y' => $pY, 'm' => $pM, 'd' => 1]);
-            $endDate = $this->p2g(['y' => $pY, 'm' => $pM, 'd' => $pD]);
+            $pY = $this->now('Y');
+            $pM = $this->now('M');
+            $pD = $this->now('d');
+            $startDate = $this->p2g([$pY, $pM, 1]);
+            $endDate = $this->p2g([$pY, $pM, $pD]);
             $dates[] = [$startDate, $endDate, 'year' => (int) $pY, 'month' => (int) $pM];
         } elseif (isset($config['y']) && isset($config['m']) && isset($config['d'])) {
             //$this->setConfig($config);
@@ -138,12 +168,12 @@ class PDate
             $pM = $config['m'];
             $pD = $config['d'];
 
-            $startDate = $this->p2g(['y' => $pY, 'm' => $pM, 'd' => 1]);
-            $endDate = $this->p2g(['y' => $pY, 'm' => $pM, 'd' => $pD]);
+            $startDate = $this->p2g([$pY, $pM, 1]);
+            $endDate = $this->p2g([$pY, $pM, $pD]);
             $dates[] = [$startDate, $endDate, 'year' => (int) $pY, 'month' => (int) $pM];
         } else {
-            $pY = $this->now(['outFormat' => 'Y']);
-            $pM = $this->now(['outFormat' => 'M']);
+            $pY = $this->now('Y');
+            $pM = $this->now('M');
             $pM++;
             $monthNum++;
         }
@@ -161,13 +191,28 @@ class PDate
             } elseif ($pM == 12) {
                 $pD = ($this->pLeapYear($pY)) ? 30 : 29;
             }
-            $startDate = $this->p2g(['y' => $pY, 'm' => $pM, 'd' => 1]);
-            $endDate = $this->p2g(['y' => $pY, 'm' => $pM, 'd' => $pD]);
+            $startDate = $this->p2g([$pY, $pM, 1]);
+            $endDate = $this->p2g([$pY, $pM, $pD]);
 
             $dates[] = [$startDate, $endDate, 'year' => (int) $pY, 'month' => (int) $pM];
         }
-
-        $config['dateTime'] = $temp;
+        $this->config['dateTime'] = $temp;
         return $dates;
+    }
+
+    public function str2date($date)
+    {
+        $config['dateTime'] = null;
+        if (!is_array($date)) {
+            $date = preg_split("/(-|\/| |:)/", $date);
+        }
+        $config['y'] = isset($date[0]) ? $date[0] : null;
+        $config['m'] = isset($date[1]) ? $date[1] : null;
+        $config['d'] = isset($date[2]) ? $date[2] : null;
+        $config['h'] = isset($date[3]) ? $date[3] : 0;
+        $config['i'] = isset($date[4]) ? $date[4] : 0;
+        $config['s'] = isset($date[5]) ? $date[5] : 0;
+
+        return array_merge($this->config, $config);
     }
 }
