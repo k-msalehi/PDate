@@ -145,13 +145,14 @@ class PDate
      * default: true
      * @param array $config config
      */
-    public function pArchive($monthNum, $tillNow = true, $config = [])
+    public function pArchive($monthNum, $tillNow = true, $date = false)
     {
-
         //temporary set $config['dateTime'] to null to avoid bad output from $this->p2g().
-        $config = array_merge($this->config,$config);
-        $config['dateTime'] = null;
-
+        if ($date) {
+            $config = $this->str2date($date);
+        } else {
+            $config = $this->config;
+        }
         $dates = [];
         if ($tillNow) {
             $pY = $this->now('Y');
