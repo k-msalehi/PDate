@@ -3,9 +3,9 @@ include 'PDate.php';
 
 $config = [
     'dateTime'  => '2018-10-11',
-    'local'     => 'fa_IR',
-    'inTimeZone'  => 'Asia/Tehran',//if not set it uses your ini gonfig
-    'outTimeZone'  => 'Asia/Tehran',//if not set it uses your ini gonfig
+    'local'     => 'fa_IR',//default: php.ini config
+    'inTimeZone'  => 'Asia/Tehran',//default: php.ini config
+    'outTimeZone'  => 'Asia/Tehran',//default: php.ini config
     'local'     => 'en_US'
 
 ];
@@ -14,9 +14,9 @@ $config = [
     'y'=>2018,
     'm'=>10,
     'd'=>11,
-    'local'     => 'fa_IR',//if not set it uses your ini gonfig
-    'inTimeZone'  => 'Asia/Tehran',//if not set it uses your ini gonfig
-    'outTimeZone'  => 'Asia/Tehran',//if not set it uses your ini gonfig
+    'local'     => 'fa_IR',//default: php.ini config
+    'inTimeZone'  => 'Asia/Tehran',//default: php.ini config
+    'outTimeZone'  => 'Asia/Tehran',//default: php.ini config
 ];
 
 $pDate = new PDate();
