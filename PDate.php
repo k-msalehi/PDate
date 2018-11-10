@@ -113,9 +113,8 @@ class PDate
     {
         if (($year % 4 == 0) and (($year % 100 != 0) or ($year % 400 == 0))) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -128,7 +127,6 @@ class PDate
         if (in_array($b, $ary)) {
             return true;
         }
-
         return false;
     }
 
