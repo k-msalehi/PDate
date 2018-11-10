@@ -45,7 +45,6 @@ class PDate
                 $config['m']--;
                 $time = IntlCalendar::createInstance($config['inTimeZone'], "$config[local]@calendar=$baseCalType");
                 $time->set((int) $config['y'], (int) $config['m'], (int) $config['d'], (int) $config['h'], (int) $config['i'], (int) $config['s']);
-
             }
         } else {
             if (empty($config['y']) || empty($config['m']) || empty($config['d'])) {
@@ -71,9 +70,7 @@ class PDate
         if ($outFormat) {
             $config['outFormat'] = $outFormat;
         }
-
         $time = $this->_checkDate($config, 'gregorian');
-
         $formatter = new IntlDateFormatter($config['local'] . "@calendar={$config['calendar']}", IntlDateFormatter::SHORT, IntlDateFormatter::LONG, $config['outTimeZone'], IntlDateFormatter::TRADITIONAL, $config['outFormat']);
         // $formatter->setPattern($config['outFormat']);
         $time = $formatter->format($time);
@@ -90,7 +87,6 @@ class PDate
             $config['outFormat'] = $outFormat;
         }
         $time = $this->_checkDate($config, 'persian');
-
         $formatter = new IntlDateFormatter($config['local'] . "@calendar={$config['calendar']}", IntlDateFormatter::FULL, IntlDateFormatter::FULL, $config['outTimeZone'], IntlDateFormatter::GREGORIAN, $config['outFormat']);
         //$formatter->setPattern($config['outFormat']);
         $time = $formatter->format($time);
@@ -104,7 +100,6 @@ class PDate
         $time = IntlDateFormatter::formatObject($time, $outFormat, $config['local']);
         return $time;
     }
-
     /**
      * @link vtwo.org/1688952
      */
@@ -115,7 +110,6 @@ class PDate
         }
         return false;
     }
-
     /**
      * @link vtwo.org/1688952
      */
@@ -128,7 +122,6 @@ class PDate
         }
         return false;
     }
-
     /**
      * return start and end of each jalali month in gregorian date
      *
@@ -162,7 +155,6 @@ class PDate
             $pY = $config['y'];
             $pM = $config['m'];
             $pD = $config['d'];
-
             $startDate = $this->p2g([$pY, $pM, 1]);
             $endDate = $this->p2g([$pY, $pM, $pD]);
             $dates[] = [$startDate, $endDate, 'year' => (int) $pY, 'month' => (int) $pM];
@@ -188,12 +180,10 @@ class PDate
             }
             $startDate = $this->p2g([$pY, $pM, 1]);
             $endDate = $this->p2g([$pY, $pM, $pD]);
-
             $dates[] = [$startDate, $endDate, 'year' => (int) $pY, 'month' => (int) $pM];
         }
         return $dates;
     }
-
     public function str2date($date)
     {
         $config['dateTime'] = null;
@@ -206,7 +196,6 @@ class PDate
         $config['h'] = isset($date[3]) ? $date[3] : 0;
         $config['i'] = isset($date[4]) ? $date[4] : 0;
         $config['s'] = isset($date[5]) ? $date[5] : 0;
-
         return array_merge($this->config, $config);
     }
 }
