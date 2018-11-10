@@ -7,7 +7,7 @@ what PDate can do?
 * get current Persian date
 * check Persian leap year
 * check Gregorian leap year
-* get start and end of each Persian month in gregorian date (used for Jalali/Persian archive or monthly report)
+* get start and end of each Persian month in gregorian date (can use for Jalali/Persian archive or monthly report)
 
 default config is
 ```
