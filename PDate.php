@@ -1,6 +1,5 @@
 <?php
 /**
- * PHP PDate library
  * @package PDate
  * @author Mohammad Salehi Koleti <mohammadsk97@yahoo.com>
  * @see https://github.com/pars0097/PDate
