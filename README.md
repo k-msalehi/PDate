@@ -39,7 +39,7 @@ examples of acceptable formats:
 1397/5/11 18:30
 
 
-you can set last `pArchive()` output date by set `$tillNow` parameter to `false` and set `Y-m-d`(in Persian date) as last date in third argument.
+you can set `pArchive()` last output date by setting `$tillNow` parameter to `false` and set third argument with date string(`Y-m-d`) or date array `[Y, m,d]` (in Persian date).
 by default `$tillNow` is `true`
 
 example:
