@@ -131,9 +131,9 @@ class PDate
      *
      * @param int $monthNum number of dates to return
      * @param bool $tillNow if `$tillNow = true` last date of archive set to day of current month, esle last day set to the end of current month.
-     * if you want to change last date of archive you MUST set `$tillNow = false` AND set value of `$confog['dateTime']`.
+     * for changing last date of archive you MUST set `$tillNow = false` AND set value of $date to last date of archive.
      * default: true
-     * @param array $config config
+     * @param array $date last date of archive [yyyy,m,d]
      */
     public function pArchive($monthNum, $tillNow = true, $date = false)
     {
