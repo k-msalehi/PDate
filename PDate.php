@@ -184,7 +184,7 @@ class PDate
         }
         return $dates;
     }
-    public function str2date($date)
+    private function str2date($date)
     {
         $config['dateTime'] = null;
         if (!is_array($date)) {
