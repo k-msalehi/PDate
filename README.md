@@ -26,12 +26,11 @@ default config is
     'timeZone'  => null,
 ];
 ```
-*`null` values replace with ini default values.*
 
-**priority of input date is with `dateTime` in `$config` `parameters`, it means if you set `dateTime`, then `y`, `m`, `d` have no affect**
+**if you set `dateTime`, then `y`, `m`, `d` have no affect**
 
-`inFormat` is only available when you set `dateTime` parameter and use `g2p()`.
-if you want to pass date and/or outFormat directy to `g2o()` and `p2g()` you have to use one of following chatecters as delimiter between date, month, day, hour, minute and second:
+`inFormat` is only available when you set value for `dateTime` parameter and use `g2p()` (Gregorian to Persian) method.
+if you want to pass date and/or outFormat directy to `g2p()` and `p2g()` you have to use one of following chatecters as delimiter between date, month, day, hour, minute and second:
 `-`, `:`, ` `(white space), `/`
 examples of acceptable formats:
 2018-10-9
