@@ -133,7 +133,7 @@ class PDate
      * @param bool $tillNow if `$tillNow = true` last date of archive set to day of current month, esle last day set to the end of current month.
      * for changing last date of archive you MUST set `$tillNow = false` AND set value of $date to last date of archive.
      * default: true
-     * @param array $date last date of archive [yyyy,m,d]
+     * @param string|array|boolean $date last date of archive [yyyy,m,d]
      */
     public function pArchive($monthNum, $tillNow = true, $date = false)
     {
