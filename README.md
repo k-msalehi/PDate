@@ -1,5 +1,5 @@
 # PDate
-Persian aka Jalali or Shamsi or Hijri Shamsi calendar library using php intl extension 
+Persian (aka Jalali, Shamsi or Hijri Shamsi) calendar library using php intl extension 
 
 what PDate can do?
 * convert Gregorian date to persian date
