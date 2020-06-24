@@ -27,13 +27,13 @@ $pDate = new PDate(); //or $pDate = new PDate($config)
 $pDate->setConfig($config);
 
 //NOTE: p2g() and g2p() methods aregumants are same
-echo $date->g2p(); //output: 1397-7-19 (get date from $config)
-echo $date->g2p([2018 , 11 , 10]); //output: 1397-7-19
-echo $date->g2p('2018-11-10'); //output: 1397-7-19
-echo $date->g2p('2018-11-10', 'y-M-d'); //output: 1397-7-19
+echo $pDate->g2p(); //output: 1397-7-19 (get date from $config)
+echo $pDate->g2p([2018 , 11 , 10]); //output: 1397-7-19
+echo $pDate->g2p('2018-11-10'); //output: 1397-7-19
+echo $pDate->g2p('2018-11-10', 'y-M-d'); //output: 1397-7-19
 
-echo $date->now(); //output: 1397-7-21
-echo $date->now('y-M-d'); //output: 1397-7-21
+echo $date->now(); //output: current date
+echo $date->now('y-M-d'); //output: current date with specific format
 
 //an example from pArchive output
 var_dump($pDate->pArchive(3));
