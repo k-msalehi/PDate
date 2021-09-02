@@ -71,7 +71,7 @@ array (size=3)
 ```
 
 possible `outFormat` values are documented at
-[http://userguide.icu-project.org/formatparse/datetime](http://userguide.icu-project.org/formatparse/datetime).
+[https://sites.google.com/site/icuprojectuserguide/formatparse/formatting-dates-and-times](http://userguide.icu-project.org/formatparse/datetime).
 
 possible `inFormat` values are documented at
 [http://uk3.php.net/manual/en/function.date.php](http://uk3.php.net/manual/en/function.date.php).
