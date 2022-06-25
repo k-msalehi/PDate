@@ -1,14 +1,18 @@
 <?php
+
 /**
  * @package PDate
  * @author Mohammad Salehi Koleti <mohammadsk97@yahoo.com>
  * @see https://github.com/pars0097/PDate
  * @license https://opensource.org/licenses/lgpl-3.0.html LGPL 3
  */
+
+namespace App\Helpers\PDate;
+
 class PDate
 {
     private $config =
-        [
+    [
         'dateTime' => null,
         'y' => null,
         'm' => null,
@@ -16,12 +20,18 @@ class PDate
         'h' => 0,
         'i' => 0,
         's' => 0,
-        'inFormat' => 'Y-m-d',
-        'outFormat' => 'y-M-d',
+        'inFormat' => 'Y/m/d H:i:s',
+        'outFormat' => 'y-MM-dd HH:mm:ss',
         'local' => null,
         'calendar' => 'persian',
-        'outTimeZone' => null,
+        'outTimeZone' => 'Asia/Tehran',
+        'inTimeZone' => 'Asia/Tehran',
     ];
+
+    public function getConfig()
+    {
+        return $this->config;
+    }
     public function __construct($config = [])
     {
         if (empty($this->config['inTimeZone'])) {
@@ -38,30 +48,35 @@ class PDate
         $config = array_merge($this->config, $config);
         if (isset($config['dateTime'])) {
             if ($baseCalType == 'gregorian') {
-                $time = DateTime::createFromFormat($config['inFormat'], $config['dateTime'], new DateTimeZone($config['inTimeZone']));
+                $time = \DateTime::createFromFormat($config['inFormat'], $config['dateTime'], new \DateTimeZone($config['inTimeZone']));
             } else {
                 $this->str2date($config['dateTime']);
                 $config = $this->config;
                 $config['m']--;
-                $time = IntlCalendar::createInstance($config['inTimeZone'], "$config[local]@calendar=$baseCalType");
+                $time = \IntlCalendar::createInstance($config['inTimeZone'], "$config[local]@calendar=$baseCalType");
                 $time->set((int) $config['y'], (int) $config['m'], (int) $config['d'], (int) $config['h'], (int) $config['i'], (int) $config['s']);
             }
         } else {
             if (empty($config['y']) || empty($config['m']) || empty($config['d'])) {
-                throw new Exception('if you left `$config[\'dateTime\']` null then y, m and d MUST has value');
+                return false;
+                //throw new \Exception('if you left `$config[\'dateTime\']` null then y, m and d MUST has value');
             }
             //months num starts from 0
             $config['m']--;
-            $time = IntlCalendar::createInstance($config['inTimeZone'], "$config[local]@calendar=$baseCalType");
+            $time = \IntlCalendar::createInstance($config['inTimeZone'], "$config[local]@calendar=$baseCalType");
             $time->set((int) $config['y'], (int) $config['m'], (int) $config['d'], (int) $config['h'], (int) $config['i'], (int) $config['s']);
         }
         if ($time) {
             return $time;
         }
-        throw new Exception('invalide date/time entered!');
+        throw new \Exception('invalide date/time entered!');
     }
-    public function g2p($date = false, $outFormat = false)
+    public function g2p($date = false, $outFormat = false, $local = false)
     {
+        if (empty($date)) {
+            return null;
+        }
+
         if ($date) {
             $config = $this->str2date($date);
         } else {
@@ -70,14 +85,20 @@ class PDate
         if ($outFormat) {
             $config['outFormat'] = $outFormat;
         }
+        if ($local) {
+            $config['local'] = $local;
+        }
         $time = $this->_checkDate($config, 'gregorian');
-        $formatter = new IntlDateFormatter($config['local'] . "@calendar={$config['calendar']}", IntlDateFormatter::SHORT, IntlDateFormatter::LONG, $config['outTimeZone'], IntlDateFormatter::TRADITIONAL, $config['outFormat']);
+        $formatter = new \IntlDateFormatter($config['local'] . "@calendar={$config['calendar']}", \IntlDateFormatter::SHORT, \IntlDateFormatter::LONG, $config['outTimeZone'], \IntlDateFormatter::TRADITIONAL, $config['outFormat']);
         // $formatter->setPattern($config['outFormat']);
         $time = $formatter->format($time);
         return $time;
     }
-    public function p2g($date = false, $outFormat = false)
+    public function p2g($date = false, $outFormat = false, $local = false)
     {
+        if (empty($date)) {
+            return null;
+        }
         if ($date) {
             $config = $this->str2date($date);
         } else {
@@ -86,18 +107,24 @@ class PDate
         if ($outFormat) {
             $config['outFormat'] = $outFormat;
         }
+        if ($local) {
+            $config['local'] = $local;
+        }
         $time = $this->_checkDate($config, 'persian');
-        $formatter = new IntlDateFormatter($config['local'] . "@calendar={$config['calendar']}", IntlDateFormatter::FULL, IntlDateFormatter::FULL, $config['outTimeZone'], IntlDateFormatter::GREGORIAN, $config['outFormat']);
+        $formatter = new \IntlDateFormatter($config['local'] . "@calendar={$config['calendar']}", \IntlDateFormatter::FULL, \IntlDateFormatter::FULL, $config['outTimeZone'], \IntlDateFormatter::GREGORIAN, $config['outFormat']);
         //$formatter->setPattern($config['outFormat']);
         $time = $formatter->format($time);
         return $time;
     }
-    public function now($outFormat = false)
+    public function now($outFormat = false, $local = false)
     {
         $outFormat = $outFormat ?: $this->config['outFormat'];
         $config = $this->config;
-        $time = IntlCalendar::createInstance($config['outTimeZone'], 'fa_IR');
-        $time = IntlDateFormatter::formatObject($time, $outFormat, $config['local']);
+        if ($local) {
+            $config['local'] = $local;
+        }
+        $time = \IntlCalendar::createInstance($config['outTimeZone'], 'fa_IR');
+        $time = \IntlDateFormatter::formatObject($time, $outFormat, $config['local']);
         return $time;
     }
     /**
