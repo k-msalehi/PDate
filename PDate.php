@@ -5,6 +5,9 @@
  * @author Mohammad Salehi Koleti <mohammadsk97@yahoo.com>
  * @see https://github.com/pars0097/PDate
  * @license https://opensource.org/licenses/lgpl-3.0.html LGPL 3
+ * @description Persian Date Helper
+ * valid outFormat values are documented at https://unicode-org.github.io/icu/userguide/format_parse/datetime/ .
+ * valid inFormat values are documented at https://www.php.net/manual/en/datetime.format.php .
  */
 
 namespace App\Helpers\PDate;
@@ -175,7 +178,7 @@ class PDate
             $pM = $this->now('M');
             $pD = $this->now('d');
             $startDate = $this->p2g([$pY, $pM, 1]);
-            $endDate = $this->p2g([$pY, $pM, $pD]);
+            $endDate = $this->p2g([$pY, $pM, $pD, 23, 59, 59]);
             $dates[] = [$startDate, $endDate, 'year' => (int) $pY, 'month' => (int) $pM];
         } elseif (isset($config['y']) && isset($config['m']) && isset($config['d'])) {
             //$this->setConfig($config);
@@ -183,7 +186,7 @@ class PDate
             $pM = $config['m'];
             $pD = $config['d'];
             $startDate = $this->p2g([$pY, $pM, 1]);
-            $endDate = $this->p2g([$pY, $pM, $pD]);
+            $endDate = $this->p2g([$pY, $pM, $pD, 23, 59, 59]);
             $dates[] = [$startDate, $endDate, 'year' => (int) $pY, 'month' => (int) $pM];
         } else {
             $pY = $this->now('Y');
@@ -206,7 +209,7 @@ class PDate
                 $pD = ($this->pLeapYear($pY)) ? 30 : 29;
             }
             $startDate = $this->p2g([$pY, $pM, 1]);
-            $endDate = $this->p2g([$pY, $pM, $pD]);
+            $endDate = $this->p2g([$pY, $pM, $pD, 23, 59, 59]);
             $dates[] = [$startDate, $endDate, 'year' => (int) $pY, 'month' => (int) $pM];
         }
         return $dates;
