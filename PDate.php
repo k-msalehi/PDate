@@ -126,7 +126,7 @@ class PDate
         if ($local) {
             $config['local'] = $local;
         }
-        $time = \IntlCalendar::createInstance($config['outTimeZone'], 'fa_IR');
+        $time = \IntlCalendar::createInstance($config['outTimeZone'], 'fa_IR@calendar=persian');
         $time = \IntlDateFormatter::formatObject($time, $outFormat, $config['local']);
         return $time;
     }
