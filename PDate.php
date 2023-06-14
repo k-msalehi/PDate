@@ -217,6 +217,9 @@ class PDate
     private function str2date($date)
     {
         $config['dateTime'] = null;
+        if(is_numeric($date)){
+            $date = date('Y-m-d H:i:s',$date);
+        }
         if (!is_array($date)) {
             $date = preg_split("/(-|\/| |:)/", $date);
         }
