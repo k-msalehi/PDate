@@ -76,10 +76,6 @@ class PDate
     }
     public function g2p($date = false, $outFormat = false, $local = false)
     {
-        if (empty($date)) {
-            return null;
-        }
-
         if ($date) {
             $config = $this->str2date($date);
         } else {
@@ -99,9 +95,6 @@ class PDate
     }
     public function p2g($date = false, $outFormat = false, $local = false)
     {
-        if (empty($date)) {
-            return null;
-        }
         if ($date) {
             $config = $this->str2date($date);
         } else {
